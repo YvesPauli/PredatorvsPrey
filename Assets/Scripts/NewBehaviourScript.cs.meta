@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 4d86a3e5307a6a5498bcd161511e64c6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PredatorPrefab: {fileID: 1420319807936978866, guid: 056c37f1d1559924ebbb4386d970f8d8, type: 3}
+  - PreyPrefab: {fileID: 8124441855605530074, guid: 7e6060fabdec95b409c6913dd6afc18e, type: 3}
+  - borderTop: {fileID: 5965757914715085892, guid: 748e9c9bdf3a08f49b9541c207618b7b, type: 3}
+  - borderBot: {fileID: 1969132705490581005, guid: 810cf77338a1bbe409dfa3847b460951, type: 3}
+  - borderRight: {fileID: 2281588695484579838, guid: 62c71b12c9b0a2143a5d1297f4d6b168, type: 3}
+  - borderLeft: {fileID: 9036136515741806639, guid: 88dfba10f7cb08d418dbb84e3b5abe19, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
