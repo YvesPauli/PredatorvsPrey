@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityBehaviour : MonoBehaviour
-{
-    public const float MaxSpeed = 5;
+{   
+    private static int entityCount = 0;
+    public int entityCap = 200;
+    public float MaxSpeed = 5;
     public const float MaxAngularSpeed = 100;
+    public float speedfactor = 1f;
+    public float timefactor = 0.2f;
+    public int eatCounter;
+    public float lifeTime;
 
     public float fovDistance; // in meters
     public float fovRange; // in degrees
@@ -21,11 +27,18 @@ public class EntityBehaviour : MonoBehaviour
     private Brain brain;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        brain = new Brain(fovRays, new int[] { 5,5 }, 2);
+    void Awake()
+    {   
+        entityCount++;
+        InitParams();
+        brain = new Brain(fovRays, new int[] { 10,10 }, 2);
     }
 
+    public virtual void InitParams()
+    {
+
+    }
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -36,19 +49,22 @@ public class EntityBehaviour : MonoBehaviour
         transform.position += transform.right * Time.deltaTime * speed;
         GetComponent<Rigidbody2D>().angularVelocity = omega;
 
-        energy = energy - Time.deltaTime * Mathf.Abs(speed) / MaxSpeed;
+        energy = energy - timefactor * Time.deltaTime - speedfactor * Time.deltaTime * Mathf.Abs(speed) / MaxSpeed;
 
-        if (energy <= 0)
+
+        if (energy >= 150)
         {
-            Destroy(gameObject);
+            energy = 100;
+            if (entityCount < entityCap)
+            {
+            Instantiate(gameObject).GetComponent<EntityBehaviour>().brain.EvolveFromParent(brain);
+            }
         }
 
-        if (energy >= 120)
-        {
-            energy = 60;
-            Instantiate(gameObject);
-        }
+    }
 
+    void OnDestroy(){
+        entityCount--;
     }
 
     private float[] CalculateFoV()
@@ -100,10 +116,10 @@ public class EntityBehaviour : MonoBehaviour
             switch(border.borderType)
             {
                 case Border.BorderType.LeftRight:
-                    pos.x = -pos.x;
+                    pos.x = -pos.x + Mathf.Sign(pos.x)*3;
                     break;
                 case Border.BorderType.TopBot:
-                    pos.y = -pos.y;
+                    pos.y = -pos.y + Mathf.Sign(pos.y)*3;
                     break;
             }
             transform.position = pos;

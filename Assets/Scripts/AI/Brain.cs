@@ -44,9 +44,28 @@ public class Brain
         }
     }
 
-    private void WeightEvolution(float[,] weightMatrix)
+    private float[,] WeightEvolution(float[,] weightMatrix)
     {
+        float[,] evolvedWeights = new float[weightMatrix.GetLength(0), weightMatrix.GetLength(1)];
+        for (int i = 0; i < weightMatrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < weightMatrix.GetLength(1); j++)
+            {   
+                evolvedWeights[i, j] = weightMatrix[i,j] + Random.Range(-0.15f, 0.15f);
+                evolvedWeights[i,j] = Mathf.Clamp(evolvedWeights[i,j],-1,1);
+            }
+        }
+        return evolvedWeights;
+    }
 
+    public void EvolveFromParent(Brain parentBrain)
+    {
+        weights.Clear();
+
+        foreach(var weightMatrix in parentBrain.weights)
+        {
+            weights.Add(WeightEvolution(weightMatrix));
+        }
     }
 
 

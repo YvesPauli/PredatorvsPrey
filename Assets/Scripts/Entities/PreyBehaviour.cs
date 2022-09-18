@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class PreyBehaviour : EntityBehaviour
 {
-    private void Awake()
-    {
+    public override void InitParams()
+    {   
+        speedfactor = 0.2f;
+        timefactor = 0f;
         fovDistance = 20;
-        fovRange = 60;
-        fovRays = 10;
+        fovRange = 240;
+        fovRays = 30;
         visibleLayers = LayerMask.GetMask("Predator");
     }
 
     private void Update()
     {
-        energy += Mathf.Lerp(10, 0, Mathf.Abs(speed) / MaxSpeed) * Time.deltaTime;
+        energy += Mathf.Lerp(10, -5, Mathf.Abs(speed) / MaxSpeed) * Time.deltaTime;
+        lifeTime = lifeTime * Time.deltaTime;
+        if (energy <= 0)
+        {
+            MaxSpeed = 0;
+        }
+        else 
+        {
+            MaxSpeed = 7;
+        }
     }
+
 
     public override void HandleCollisionWithEntitity(EntityBehaviour entityBehaviour)
     {
